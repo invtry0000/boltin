@@ -1,5 +1,6 @@
 
 const Description= require('../../model/Description');
+const Location = require('../../model/Location');
 const Size = require('../../model/Size');
 
 const addDescription = async (req,res,next) =>{
@@ -37,28 +38,40 @@ const addBothDS = async (req,res,next) =>{
         size: req.body.size,
         
      })
+
+     const addedLocation = new Location({
+         location:req.body.location,
+     })
      var resultD = null;
      var resultS = null;
+     var resultsL =null;
 
     try{
     
         if(req.body.description !== '' ){
      resultD = await addedDescription.save();
 
-}
+                                        }
 
-   if(req.body.size  !== ''){
+        if(req.body.size  !== ''){
     resultS = await addedSize.save();
 
-    }
+                            }
+
+        if(req.body.location  !== ''){
+    resultL = await addedLocation.save();
+                            
+                                }
 
 
     console.log(resultD);
     console.log(resultS);
+    console.log(resultL);
 
     var result = {
         resultD,
-        resultS
+        resultS,
+        resultL
     }
     res.json(result);
     }

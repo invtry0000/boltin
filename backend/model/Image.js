@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const logoSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    prefix: {type:String},
+    invoiceNum: {type:Number},
     companyName: {type:String},
     companyAddress: {type:String},
     telNum: {type:String},

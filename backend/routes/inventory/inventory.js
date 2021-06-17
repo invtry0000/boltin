@@ -19,52 +19,98 @@ const Inventory = require('../../model/Inventory');
      const description = req.body.description ?? '';
      const size = req.body.size ?? '';
      const unit = req.body.unit ?? '';
+     const location = req.body.location ?? '';
 
     try{
-        if(description !== '' && size !== '' && unit!==''){
+        if(description !== '' && size !== '' && unit!=='' && location !== ''){
 
      console.log('case1')
-        const result = await Inventory.find({description:req.body.description,size:req.body.size,unit:req.body.unit}).exec();
+        const result = await Inventory.find({description:req.body.description,size:req.body.size,unit:req.body.unit,location:req.body.location}).exec();
         res.json(result)}
-        else if(description !== '' && size === '' && unit!==''){
+        else if(description !== '' && size === '' && unit!=='' && location !== ''){
 
      console.log('case2')
-            const result = await Inventory.find({description:req.body.description, unit:req.body.unit}).exec();
+            const result = await Inventory.find({description:req.body.description, unit:req.body.unit,location:req.body.location}).exec();
         res.json(result)}
-        else if(description === '' && size !== '' && unit!==''){
+        else if(description === '' && size !== '' && unit!=='' && location !== ''){
 
      console.log('case3')
-            const result = await Inventory.find({size:req.body.size, unit:req.body.unit}).exec();
+            const result = await Inventory.find({size:req.body.size, unit:req.body.unit,location:req.body.location}).exec();
         res.json(result)}
         else
-        if(description === '' && size === '' && unit !==''){
+        if(description === '' && size === '' && unit !=='' && location !== ''){
 
             console.log('case4')
-               const result = await Inventory.find({unit:req.body.unit}).exec();
+               const result = await Inventory.find({unit:req.body.unit,location:req.body.location}).exec();
                res.json(result)}
                else
         
-        if(description !== '' && size !== '' && unit ===''){
+        if(description !== '' && size !== '' && unit ==='' && location !== ''){
 
             console.log('case5')
-               const result = await Inventory.find({description:req.body.description,size:req.body.size}).exec();
+               const result = await Inventory.find({description:req.body.description,size:req.body.size,location:req.body.location}).exec();
                res.json(result)}
-               else if(description !== '' && size === '' && unit ===''){
+               else if(description !== '' && size === '' && unit ==='' && location !== ''){
        
             console.log('case6')
-                   const result = await Inventory.find({description:req.body.description}).exec();
+                   const result = await Inventory.find({description:req.body.description,location:req.body.location}).exec();
                res.json(result)}
-               else if(description === '' && size !== '' && unit ===''){
+               else if(description === '' && size !== '' && unit ==='' && location !== ''){
        
             console.log('case7')
-                   const result = await Inventory.find({size:req.body.size}).exec();
+                   const result = await Inventory.find({size:req.body.size,location:req.body.location}).exec();
                res.json(result)}
                else
+                if(description === '' && size === '' && unit ==='' && location !== ''){
+            console.log('case8')
+                    const result = await Inventory.find({location:req.body.location}).exec();
+                res.json(result)
+                }
+                else
+                if(description !== '' && size !== '' && unit!=='' && location === ''){
         
+             console.log('case9')
+                const result = await Inventory.find({description:req.body.description,size:req.body.size,unit:req.body.unit}).exec();
+                res.json(result)}
+                else if(description !== '' && size === '' && unit!=='' && location === ''){
+        
+             console.log('case10')
+                    const result = await Inventory.find({description:req.body.description, unit:req.body.unit}).exec();
+                res.json(result)}
+                else if(description === '' && size !== '' && unit!=='' && location === ''){
+        
+             console.log('case11')
+                    const result = await Inventory.find({size:req.body.size, unit:req.body.unit}).exec();
+                res.json(result)}
+                else
+                if(description === '' && size === '' && unit !=='' && location === ''){
+        
+                    console.log('case12')
+                       const result = await Inventory.find({unit:req.body.unit}).exec();
+                       res.json(result)}
+                       else
+                
+                if(description !== '' && size !== '' && unit ==='' && location === ''){
+        
+                    console.log('case13')
+                       const result = await Inventory.find({description:req.body.description,size:req.body.size}).exec();
+                       res.json(result)}
+                       else if(description !== '' && size === '' && unit ==='' && location === ''){
+               
+                    console.log('case14')
+                           const result = await Inventory.find({description:req.body.description}).exec();
+                       res.json(result)}
+                       else if(description === '' && size !== '' && unit ==='' && location === ''){
+               
+                    console.log('case15')
+                           const result = await Inventory.find({size:req.body.size}).exec();
+                       res.json(result)}
+                       else
+
         
         {
 
-     console.log('case8')
+     console.log('case16')
 
      const result = await Inventory.find().exec();
             res.json(result);
@@ -81,7 +127,7 @@ const Inventory = require('../../model/Inventory');
     
     try{
         var warningLvl;
-        const queryResult = await Inventory.findOne({description:req.body.description,size:req.body.size, unit:req.body.unit});
+        const queryResult = await Inventory.findOne({description:req.body.description,size:req.body.size, unit:req.body.unit,location:req.body.location});
 
         if(queryResult.quantity -req.body.quantity < 0.3*queryResult.bquantity){
                     warningLvl = true;
@@ -89,7 +135,7 @@ const Inventory = require('../../model/Inventory');
                 warningLvl = false;
             }
 
-        const result = await Inventory.findOneAndUpdate({description:req.body.description,size:req.body.size, unit:req.body.unit},{
+        const result = await Inventory.findOneAndUpdate({description:req.body.description,size:req.body.size, unit:req.body.unit,location:req.body.location},{
                                 warningLvl:warningLvl,
                                 quantity: queryResult.quantity -req.body.quantity 
 
@@ -107,12 +153,14 @@ const Inventory = require('../../model/Inventory');
     try{
         const queryResult = await Inventory.findOne({description:req.body.description,
                                                     size:req.body.size,
-                                                    unit:req.body.unit });
+                                                    unit:req.body.unit,
+                                                    location:req.body.location });
 
 
         const result = await Inventory.findOneAndUpdate({description:req.body.description,
                                                         size:req.body.size,
-                                                        unit:req.body.unit
+                                                        unit:req.body.unit,
+                                                        location:req.body.location
                                                     },{
                                 
                                 quantity: req.body.quantity + queryResult.quantity,
@@ -127,7 +175,7 @@ const Inventory = require('../../model/Inventory');
  const inventoryDelete = async (req,res,next)=>{
 
     try{
-        const result = await Inventory.findOneAndDelete({description:req.body.description,size:req.body.size,unit:req.body.unit}).exec();
+        const result = await Inventory.findOneAndDelete({description:req.body.description,size:req.body.size,unit:req.body.unit,location:req.body.location}).exec();
         res.json(result)
     }catch(err){
         res.json(err);
@@ -148,6 +196,7 @@ const Inventory = require('../../model/Inventory');
             size:        data.size,
             unit:       data.unit,
             quantity:   data.quantity,
+            location:   data.location,
             price:      data.price,
             capital:     data.capital,
             bquantity:   data.quantity,
@@ -157,7 +206,7 @@ const Inventory = require('../../model/Inventory');
     
             try{
     
-            const queryResult = await Inventory.findOne({description:data.description,size:data.size,unit:data.unit});
+            const queryResult = await Inventory.findOne({description:data.description,size:data.size,unit:data.unit, location:data.location});
             console.log('queryResult' + queryResult)
             if(queryResult===null){
                 const result = await addedInventory.save();
@@ -165,12 +214,12 @@ const Inventory = require('../../model/Inventory');
                 res.json(result);
             }else{
                 var warningLvl;
-                if(queryResult.quantity +req.body.quantity < 0.3*queryResult.bquantity){
+                if(queryResult.quantity +data.quantity < 0.3*queryResult.bquantity){
                     warningLvl = true;
             }else{
                 warningLvl = false;
             }
-                const result = await Inventory.findOneAndUpdate({description:data.description,size:data.size,unit:data.unit},{
+                const result = await Inventory.findOneAndUpdate({description:data.description,size:data.size,unit:data.unit,location:data.location},{
                     warningLvl:warningLvl,
                     price: data.price === 0? queryResult.price : data.price,
                     quantity: data.quantity + queryResult.quantity,

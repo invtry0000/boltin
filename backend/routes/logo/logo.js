@@ -35,6 +35,8 @@ router.post('/user-profile',upload.single('profileImg'), (req, res, next) => {
     const url = req.protocol + '://' + req.get('host')
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
+        prefix: req.body.prefix,
+        invoiceNum : 0 ,
         companyName: req.body.companyName,
         companyAddress: req.body.companyAddress,
         telNum: req.body.telNum,
@@ -47,6 +49,8 @@ router.post('/user-profile',upload.single('profileImg'), (req, res, next) => {
             message: "LOGO AND HEADER ADDED SUCCESSFULY!",
             userCreated: {
                 _id: result._id,
+                prefix: result.prefix,
+                invoiceNum: result.invoiceNum,
                 profileImg: result.profileImg,
                 companyName: result.companyName,
                 companyAddress: result.companyAddress,
@@ -101,4 +105,29 @@ router.delete("/deletelogo", (req, res, next) => {
     });
 });
 
+
+router.post("/updateinvoicenum", (req, res, next) => {
+    User.findByIdAndUpdate(
+        req.body.id,{invoiceNum:req.body.invoiceNum + 1}
+    ).then(data => {
+        res.status(200).json(
+         "SUCCESSFULY UPDATED INVOICE!"
+        );
+    }).catch(err => {
+        console.log(err),
+            res.status(500).json(null);
+    });
+});
+
+
+router.get("/latestinvoicenum", (req, res, next) => {
+    User.find().sort({$natural:-1}).limit(1).then(data => {
+        res.status(200).json(
+         data[0].invoiceNum
+        );
+    }).catch(err => {
+        console.log(err),
+            res.status(500).json(null);
+    });
+});
 module.exports = router;

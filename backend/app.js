@@ -15,6 +15,10 @@ const descriptionRoute = require('./routes/inventory/description');
 const logRoute = require('./routes/log/log');
 const purgeRoute = require('./routes/inventory/purgatory');
 const Profit  = require('./routes/accounting/profit');
+const locationRoute = require('./routes/inventory/location');
+const Chart = require('./routes/chart/chart')
+
+
 
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -44,8 +48,9 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
+const uri = "mongodb+srv://admin:admin@cluster0.jqyu4.mongodb.net/boltin?retryWrites=true&w=majority";
 
-mongoose.connect('mongodb://localhost:27017/boltin' , {useUnifiedTopology: true , useNewUrlParser: true } , () => {
+mongoose.connect(uri , {useUnifiedTopology: true , useNewUrlParser: true } , () => {
    console.log('Connected to Mongo DB Successfully!!');
 
 })
@@ -153,6 +158,14 @@ app.delete('/deletedescription', descriptionRoute.descriptionDelete)
 app.get('/findalldescription', descriptionRoute.findAllDescription)
 app.get('/finddescription', descriptionRoute.findDescription)
 
+//location
+
+app.post('/addlocation', locationRoute.addLocation )
+app.delete('/deletelocation', locationRoute.locationDelete)
+app.get('/findalllocation', locationRoute.findAllLocation)
+app.post('/findlocation', locationRoute.findLocation)
+
+
 
 //log
 
@@ -181,3 +194,13 @@ app.post('/addexpense', Profit.addExpense)
 app.post('/findprofit', Profit.findProfit)
 
 app.post('/findexpense', Profit.findExpense)
+
+
+
+//charts
+app.post('/chartday', Chart.ChartsForDay)
+app.post('/chartmonth', Chart.ChartsForMonth)
+app.post('/chartyear', Chart.ChartsForYear)
+
+app.post('/NextDate', Chart.NextDate)
+

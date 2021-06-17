@@ -10,6 +10,7 @@ const inventorySchema = mongoose.Schema({
      price: { type: Number, required: true },
      bquantity: { type: Number, required: true },
      capital: {type:Number, required:true},
+     location: {type:String, required:true},
      warningLvl: {type:Boolean,  required:true}
 })
 

@@ -5,7 +5,7 @@ const logSchema = mongoose.Schema({
     orderStock: {type:String, required:true}, // ORDER/STOCK
     by: {type:String, required:true},
     status: {type:String, required:true},
-    number:{type:Number, required:false},
+    number:{type:String, required:false},
     reference: {type:String,required:true},
     visible: {type:String, required:true} // stockmanusername/SALES/NONE/STOCK
 })

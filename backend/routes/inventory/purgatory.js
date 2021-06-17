@@ -14,6 +14,7 @@ const addPurgatory = async (req,res,next) =>{
        unit:        req.body.unit,
        userName:    req.body.userName,
        quantity:    req.body.quantity,
+       location:    req.body.location,
        timeStamp:   Date.now(),
        id:          req.body.id
     })
